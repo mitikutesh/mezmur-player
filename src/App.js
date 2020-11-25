@@ -1,7 +1,11 @@
+import Player from "./components/Player";
+import Song from "./components/Song";
+import "./styles/app.scss";
 function App() {
   return (
     <div className="App">
-      <div className="">Test</div>
+      <Song></Song>
+      <Player></Player>
     </div>
   );
 }
