@@ -9,6 +9,20 @@ const LibrarySong = ({
 }) => {
   const setSelectionHanlder = () => {
     setcurrentSong(song);
+    const newSongs = songs.map((s) => {
+      if (s.id === id) {
+        return {
+          ...s,
+          active: true,
+        };
+      } else {
+        return {
+          ...s,
+          active: false,
+        };
+      }
+    });
+
     if (playing) {
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
@@ -18,19 +32,6 @@ const LibrarySong = ({
       }
     }
 
-    const newSongs = songs.map((s) => {
-      if (s.id === id) {
-        return {
-          ...song,
-          active: true,
-        };
-      } else {
-        return {
-          ...song,
-          active: false,
-        };
-      }
-    });
     setSongs(newSongs);
     //audioRef.current.play();
   };

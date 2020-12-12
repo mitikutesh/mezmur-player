@@ -2,9 +2,16 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import React from "react";
 import LibrarySong from "./LibrarySong";
 
-const Library = ({ songs, setcurrentSong, audioRef, playing, setSongs }) => {
+const Library = ({
+  songs,
+  setcurrentSong,
+  audioRef,
+  playing,
+  setSongs,
+  libraryStatus,
+}) => {
   return (
-    <div className="library">
+    <div className={`library ${libraryStatus ? "active-library" : " "}`}>
       <h2>Library</h2>
       <div className="">
         {songs.map((a) => (

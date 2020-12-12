@@ -36,7 +36,7 @@ const Player = ({
   return (
     <div className="player">
       <div className="time-control">
-        <p>{timeFormater(songInfo.currentTime)}</p>
+        <p>{timeFormater(songInfo.currentTime || 0)}</p>
         <input
           min={0}
           max={songInfo.duation}
@@ -44,7 +44,7 @@ const Player = ({
           type="range"
           onChange={dragHandler}
         />
-        <p>{timeFormater(songInfo.duration)}</p>
+        <p>{timeFormater(songInfo.duration || 0)}</p>
       </div>
       <div className="play-control">
         <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />

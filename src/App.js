@@ -4,6 +4,7 @@ import Song from "./components/Song";
 import "./styles/app.scss";
 import data from "./util";
 import Library from "./components/Library";
+import Nav from "./components/Nav";
 function App() {
   const [songs, setSongs] = useState(data());
   const [currentSong, setcurrentSong] = useState(songs[0]);
@@ -12,6 +13,7 @@ function App() {
     currentTime: 0,
     duration: 0,
   });
+  const [libraryOpen, setLibraryOpen] = useState(false);
 
   const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value;
@@ -27,6 +29,7 @@ function App() {
   const audioRef = useRef(null);
   return (
     <div className="App">
+      <Nav libraryStatus={libraryOpen} setLibraryStatus={setLibraryOpen} />
       <Song currentSong={currentSong}></Song>
       <Player
         currentSong={currentSong}
@@ -45,6 +48,7 @@ function App() {
         audioRef={audioRef}
         playing={playing}
         setSongs={setSongs}
+        libraryStatus={libraryOpen}
       ></Library>
     </div>
   );
