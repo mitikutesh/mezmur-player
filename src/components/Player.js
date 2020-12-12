@@ -7,7 +7,6 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { PlayAudio } from "../util";
 const Player = ({
   currentSong,
   playing,
@@ -59,8 +58,8 @@ const Player = ({
     if (direction === "skip-back") {
       if ((currentIndex - 1) % songs.length === -1) {
         setcurrentSong(songs[songs.length - 1]);
-        PlayAudio(playing, audioRef);
-        return;
+        // PlayAudio(playing, audioRef);
+        // return;
       }
       setcurrentSong(songs[(currentIndex - 1) % songs.length]);
     }
@@ -78,17 +77,31 @@ const Player = ({
     }
   };
 
+  //add style to input
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
   return (
     <div className="player">
       <div className="time-control">
         <p>{timeFormater(songInfo.currentTime || 0)}</p>
-        <input
-          min={0}
-          max={songInfo.duation}
-          value={songInfo.currentTime}
-          type="range"
-          onChange={dragHandler}
-        />
+        <div
+          style={{
+            background: `linear-gradient(to right, ${
+              currentSong.color[0] ?? "blue"
+            }, ${currentSong.color[1] ?? "black"})`,
+          }}
+          className="track"
+        >
+          <input
+            min={0}
+            max={songInfo.duation}
+            value={songInfo.currentTime}
+            type="range"
+            onChange={dragHandler}
+          />
+          <div style={trackAnim} className="animate-track"></div>
+        </div>
         <p>{timeFormater(songInfo.duration || 0)}</p>
       </div>
       <div className="play-control">

@@ -12,6 +12,7 @@ function App() {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
   const [libraryOpen, setLibraryOpen] = useState(false);
 
@@ -23,7 +24,16 @@ function App() {
   const timeUpdateHandler = (e) => {
     const crtTime = e.target.currentTime;
     const drt = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: crtTime, duration: drt });
+    const rcrnt = Math.round(crtTime);
+    const rdrnt = Math.round(drt);
+    const animationPect = Math.round((rcrnt / rdrnt) * 100);
+    console.log(animationPect);
+    setSongInfo({
+      ...songInfo,
+      currentTime: crtTime,
+      duration: drt,
+      animationPercentage: animationPect,
+    });
   };
   //ref
   const audioRef = useRef(null);
