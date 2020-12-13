@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -20,9 +20,9 @@ const Player = ({
   setSongs,
   setcurrentSong,
 }) => {
-  useEffect(() => {
+  const activeLibraryHandler = (nextPrev) => {
     const newSongs = songs.map((s) => {
-      if (s.id === currentSong.id) {
+      if (s.id === nextPrev.id) {
         return {
           ...s,
           active: true,
@@ -35,7 +35,7 @@ const Player = ({
       }
     });
     setSongs(newSongs);
-  }, [currentSong]);
+  };
 
   const playSongHanlder = () => {
     if (playing) {
@@ -53,28 +53,24 @@ const Player = ({
     );
   };
 
-  const skipHandler = (direction) => {
+  const skipHandler = async (direction) => {
     let currentIndex = songs.findIndex((s) => s.id === currentSong.id);
     if (direction === "skip-back") {
       if ((currentIndex - 1) % songs.length === -1) {
-        setcurrentSong(songs[songs.length - 1]);
-        // PlayAudio(playing, audioRef);
-        // return;
+        await setcurrentSong(songs[songs.length - 1]);
+        activeLibraryHandler(songs[songs.length - 1]);
+        if (playing) audioRef.current.play();
+        return;
       }
-      setcurrentSong(songs[(currentIndex - 1) % songs.length]);
+      await setcurrentSong(songs[(currentIndex - 1) % songs.length]);
+      activeLibraryHandler(songs[songs.length - 1]);
     }
     if (direction === "skip-forward") {
-      setcurrentSong(songs[(currentIndex + 1) % songs.length]);
+      await setcurrentSong(songs[(currentIndex + 1) % songs.length]);
+      activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
     }
     // PlayAudio(playing, audioRef);
-    if (playing) {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.then((audio) => {
-          audioRef.current.play();
-        });
-      }
-    }
+    if (playing) audioRef.current.play();
   };
 
   //add style to input
